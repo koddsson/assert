@@ -1,0 +1,23 @@
+{
+  "name": "@koddsson/assert",
+  "version": "0.0.0",
+  "description": "A lightweight assertion library",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "testing",
+    "assertion"
+  ],
+  "license": "MIT",
+  "prettier": "@github/prettier-config",
+  "devDependencies": {
+    "@github/prettier-config": "^0.0.4",
+    "eslint": "^7.32.0",
+    "eslint-plugin-github": "^4.3.0",
+    "typescript": "^4.4.3"
+  }
+}
