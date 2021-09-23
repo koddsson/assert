@@ -1,11 +1,3 @@
-const debug = true
-
-function log(message: string) {
-  if (debug) {
-    console.log(message)
-  }
-}
-
 function assert(condition: unknown, message: string): void {
   if (condition) return
 
@@ -24,7 +16,7 @@ assert.isOk = function (thing: unknown, message: string) {
 }
 
 assert.ok = function (thing: unknown, message: string) {
-  log('ok() is deprecated. Use isOk() instead')
+  console.log('ok() is deprecated. Use isOk() instead')
   assert.isOk(thing, message)
 }
 
@@ -35,7 +27,7 @@ assert.isNotOk = function (thing: unknown, message: string) {
 }
 
 assert.notOk = function (thing: unknown, message: string) {
-  log('notOk() is deprecated. Use isNotOk() instead')
+  console.log('notOk() is deprecated. Use isNotOk() instead')
   assert.isNotOk(thing, message)
 }
 
@@ -271,7 +263,7 @@ assert.isEmpty = function (target: unknown) {
 }
 
 assert.empty = function (target: unknown) {
-  log('empty() is deprecated. Use isEmpty() instead')
+  console.log('empty() is deprecated. Use isEmpty() instead')
   assert.isEmpty(target)
 }
 
