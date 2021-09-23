@@ -1,3 +1,5 @@
+import {inspect} from 'loupe'
+
 /**
  * Check if two objects are equal
  */
@@ -31,7 +33,7 @@ export function fail(message: string): void {
 export function assert(condition: unknown, message: string): void {
   if (condition) return
 
-  fail(message || `Expected ${condition} to be truthy`)
+  fail(message || `Expected ${inspect(condition)} to be truthy`)
 }
 
 /**
@@ -40,7 +42,7 @@ export function assert(condition: unknown, message: string): void {
 export function isOk(thing: unknown, message: string): void {
   if (thing) return
 
-  fail(message || `Expected ${thing} to be ok`)
+  fail(message || `Expected ${inspect(thing)} to be ok`)
 }
 
 /**
@@ -49,7 +51,7 @@ export function isOk(thing: unknown, message: string): void {
 export function isNotOk(thing: unknown, message: string): void {
   if (!thing) return
 
-  fail(message || `Expected ${thing} to be not ok`)
+  fail(message || `Expected ${inspect(thing)} to be not ok`)
 }
 
 /**
@@ -59,7 +61,7 @@ export function isNotOk(thing: unknown, message: string): void {
 export function equal<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual == expected) return
 
-  fail(message || `Expected ${actual} and ${expected} to be equal`)
+  fail(message || `Expected ${inspect(actual)} and ${inspect(expected)} to be equal`)
 }
 
 /**
@@ -69,7 +71,7 @@ export function equal<T = unknown>(actual: T, expected: T, message: string): voi
 export function notEqual<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual != expected) return
 
-  fail(message || `Expected ${actual} and ${expected} to be not equal`)
+  fail(message || `Expected ${inspect(actual)} and ${inspect(expected)} to be not equal`)
 }
 
 /**
@@ -79,7 +81,7 @@ export function notEqual<T = unknown>(actual: T, expected: T, message: string): 
 export function strictEqual<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual === expected) return
 
-  fail(message || `Expected ${actual} and ${expected} to be strict equal`)
+  fail(message || `Expected ${inspect(actual)} and ${inspect(expected)} to be strict equal`)
 }
 
 /**
@@ -89,7 +91,7 @@ export function strictEqual<T = unknown>(actual: T, expected: T, message: string
 export function notStrictEqual<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual !== expected) return
 
-  fail(message || `Expected ${actual} and ${expected} to be not strict equal`)
+  fail(message || `Expected ${inspect(actual)} and ${inspect(expected)} to be not strict equal`)
 }
 
 /**
@@ -99,7 +101,7 @@ export function notStrictEqual<T = unknown>(actual: T, expected: T, message: str
 export function deepEqual(actual: Record<string, never>, expected: Record<string, never>, message: string): void {
   if (_deepEqual(actual, expected)) return
 
-  fail(message || `Expected ${expected} to be equal ${actual}`)
+  fail(message || `Expected ${inspect(expected)} to be equal ${inspect(actual)}`)
 }
 
 /**
@@ -109,7 +111,7 @@ export function deepEqual(actual: Record<string, never>, expected: Record<string
 export function notDeepEqual(actual: Record<string, never>, expected: Record<string, never>, message: string): void {
   if (!_deepEqual(actual, expected)) return
 
-  fail(message || `Expected ${expected} to be equal ${actual}`)
+  fail(message || `Expected ${inspect(expected)} to be equal ${inspect(actual)}`)
 }
 
 /**
@@ -119,7 +121,7 @@ export function notDeepEqual(actual: Record<string, never>, expected: Record<str
 export function isAbove(valueToCheck: number, valueToBeAbove: number, message: string): void {
   if (valueToCheck > valueToBeAbove) return
 
-  fail(message || `Expected ${valueToCheck} to be higher than ${valueToBeAbove}`)
+  fail(message || `Expected ${inspect(valueToCheck)} to be higher than ${inspect(valueToBeAbove)}`)
 }
 
 /**
@@ -129,7 +131,7 @@ export function isAbove(valueToCheck: number, valueToBeAbove: number, message: s
 export function isAtLeast(valueToCheck: number, valueToBeAtLeast: number, message: string): void {
   if (valueToCheck >= valueToBeAtLeast) return
 
-  fail(message || `Expected ${valueToCheck} to be lower than ${valueToBeAtLeast}`)
+  fail(message || `Expected ${inspect(valueToCheck)} to be lower than ${inspect(valueToBeAtLeast)}`)
 }
 
 /**
@@ -139,7 +141,7 @@ export function isAtLeast(valueToCheck: number, valueToBeAtLeast: number, messag
 export function isBelow(valueToCheck: number, valueToBeBelow: number, message: string): void {
   if (valueToCheck < valueToBeBelow) return
 
-  fail(message || `Expected ${valueToCheck} to be lower than ${valueToBeBelow}`)
+  fail(message || `Expected ${inspect(valueToCheck)} to be lower than ${inspect(valueToBeBelow)}`)
 }
 
 /**
@@ -148,7 +150,7 @@ export function isBelow(valueToCheck: number, valueToBeBelow: number, message: s
 export function isTrue(value: unknown, message: string): void {
   if (value === true) return
 
-  fail(message || `Expected ${value} to be true`)
+  fail(message || `Expected ${inspect(value)} to be true`)
 }
 
 /**
@@ -157,7 +159,7 @@ export function isTrue(value: unknown, message: string): void {
 export function isFalse(value: unknown, message: string): void {
   if (value === false) return
 
-  fail(message || `Expected ${value} to be false`)
+  fail(message || `Expected ${inspect(value)} to be false`)
 }
 
 /**
@@ -166,7 +168,7 @@ export function isFalse(value: unknown, message: string): void {
 export function isNull(value: unknown, message: string): void {
   if (value === null) return
 
-  fail(message || `Expected ${value} to be null`)
+  fail(message || `Expected ${inspect(value)} to be null`)
 }
 
 /**
@@ -175,7 +177,7 @@ export function isNull(value: unknown, message: string): void {
 export function isNotNull(value: unknown, message: string): void {
   if (value !== null) return
 
-  fail(message || `Expected ${value} to be not null`)
+  fail(message || `Expected ${inspect(value)} to be not null`)
 }
 
 /**
@@ -184,7 +186,7 @@ export function isNotNull(value: unknown, message: string): void {
 export function isUndefined(value: unknown, message: string): void {
   if (value === undefined) return
 
-  fail(message || `Expected ${value} to be undefined`)
+  fail(message || `Expected ${inspect(value)} to be undefined`)
 }
 
 /**
@@ -195,7 +197,7 @@ export function isUndefined(value: unknown, message: string): void {
 export function instanceOf(value: unknown, construct: Function, message: string): void {
   if (value instanceof construct) return
 
-  fail(message || `Expected ${value} to be a instance of ${construct}`)
+  fail(message || `Expected ${inspect(value)} to be a instance of ${inspect(construct)}`)
 }
 
 /**
@@ -205,7 +207,7 @@ export function instanceOf(value: unknown, construct: Function, message: string)
 export function include(haystack: unknown[], needle: unknown, message: string): void {
   if (haystack.includes(needle)) return
 
-  fail(message || `Expected ${haystack} to include ${needle}`)
+  fail(message || `Expected ${inspect(haystack)} to include ${inspect(needle)}`)
 }
 
 /**
@@ -215,7 +217,7 @@ export function include(haystack: unknown[], needle: unknown, message: string): 
 export function notInclude(haystack: unknown[], needle: unknown, message: string): void {
   if (!haystack.includes(needle)) return
 
-  fail(message || `Expected ${haystack} to not include ${needle}`)
+  fail(message || `Expected ${inspect(haystack)} to not include ${inspect(needle)}`)
 }
 
 /**
@@ -225,7 +227,7 @@ export function notInclude(haystack: unknown[], needle: unknown, message: string
 export function match(value: string, regexp: string | RegExp, message: string): void {
   if (value.match(regexp)) return
 
-  fail(message || `Expected ${value} to match ${regexp}`)
+  fail(message || `Expected ${inspect(value)} to match ${inspect(regexp)}`)
 }
 
 /**
@@ -237,7 +239,7 @@ export function hasAllKeys(thing: Record<string, never>, keys: string[], message
   const allKeys = objectKeys.length === keys.length && keys.every(key => objectKeys.includes(key))
   if (allKeys) return
 
-  fail(message || `Expected ${objectKeys} to include ${keys} and only those keys`)
+  fail(message || `Expected ${inspect(objectKeys)} to include ${inspect(keys)} and only those keys`)
 }
 
 /**
@@ -248,7 +250,7 @@ export function containsAllKeys(thing: Record<string, never>, keys: string[], me
   const allKeys = keys.every(key => Object.keys(thing).includes(key))
   if (allKeys) return
 
-  fail(message || `Expected ${Object.keys(thing)} to include all the keys: ${keys}`)
+  fail(message || `Expected ${inspect(Object.keys(thing))} to include all the keys: ${inspect(keys)}`)
 }
 
 /**
@@ -262,7 +264,7 @@ export function throws(fn: () => void, errorLike: string | RegExp): void {
   } catch (error) {
     if (!(error instanceof Error)) return
     if (error.message.match(errorLike)) return
-    fail(`Expected error message ${error.message} to match ${errorLike}`)
+    fail(`Expected error message ${inspect(error.message)} to match ${inspect(errorLike)}`)
   }
   fail(`Expected function to throw`)
 }
@@ -273,12 +275,12 @@ export function throws(fn: () => void, errorLike: string | RegExp): void {
 export function isEmpty(target: string | unknown[] | NodeList | Map<unknown, unknown> | Set<unknown>): void {
   if (typeof target === 'string' || target instanceof Array || target instanceof NodeList) {
     if (target.length === 0) return
-    fail(`Expected ${target} to be empty`)
+    fail(`Expected ${inspect(target)} to be empty`)
   } else if (target instanceof Map || target instanceof Set) {
     if (target.size === 0) return
-    fail(`Expected ${target} to be empty`)
+    fail(`Expected ${inspect(target)} to be empty`)
   }
-  fail(`Didn't know how to check if ${target} is empty`)
+  fail(`Didn't know how to check if ${inspect(target)} is empty`)
 }
 
 /**
@@ -287,10 +289,10 @@ export function isEmpty(target: string | unknown[] | NodeList | Map<unknown, unk
 export function isNotEmpty(target: string | unknown[] | NodeList | Map<unknown, unknown> | Set<unknown>): void {
   if (typeof target === 'string' || target instanceof Array || target instanceof NodeList) {
     if (target.length !== 0) return
-    fail(`Expected ${target} to be not empty`)
+    fail(`Expected ${inspect(target)} to be not empty`)
   } else if (target instanceof Map || target instanceof Set) {
     if (target.size !== 0) return
-    fail(`Expected ${target} to be not empty`)
+    fail(`Expected ${inspect(target)} to be not empty`)
   }
-  fail(`Didn't know how to check if ${target} is not empty`)
+  fail(`Didn't know how to check if ${inspect(target)} is not empty`)
 }
