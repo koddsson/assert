@@ -7,6 +7,24 @@ function assert(condition: unknown, message: string): void {
 function fail(message: string) {
   throw new Error(message)
 }
+
+function deepEqual(obj1: Record<string, never>, obj2: Record<string, never>) {
+  if (obj1 === obj2) {
+    // it's just the same object. No need to compare.
+    return true
+  }
+
+  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false
+
+  // compare objects with same number of keys
+  for (const key in obj1) {
+    if (!(key in obj2)) return false //other object doesn't have this prop
+    if (!deepEqual(obj1[key], obj2[key])) return false
+  }
+
+  return true
+}
+
 assert.fail = fail
 
 assert.isOk = function (thing: unknown, message: string) {
@@ -45,23 +63,6 @@ assert.notStrictEqual = function <T = unknown>(actual: T, expected: T, message: 
   fail(message || `Expected ${actual} and ${expected} to be not strict equal`)
 }
 
-function deepEqual(obj1: Record<string, never>, obj2: Record<string, never>) {
-  if (obj1 === obj2) {
-    // it's just the same object. No need to compare.
-    return true
-  }
-
-  if (Object.keys(obj1).length !== Object.keys(obj2).length) return false
-
-  // compare objects with same number of keys
-  for (const key in obj1) {
-    if (!(key in obj2)) return false //other object doesn't have this prop
-    if (!deepEqual(obj1[key], obj2[key])) return false
-  }
-
-  return true
-}
-
 assert.deepEqual = function (actual: Record<string, never>, expected: Record<string, never>, message: string) {
   if (deepEqual(actual, expected)) return
 
@@ -92,23 +93,17 @@ assert.isBelow = function (valueToCheck: number, valueToBeBelow: number, message
   fail(message || `Expected ${valueToCheck} to be lower than ${valueToBeBelow}`)
 }
 
-// TODO: assert.isAtMost
-
 assert.isTrue = function (value: unknown, message: string) {
   if (value === true) return
 
   fail(message || `Expected ${value} to be true`)
 }
 
-// TODO: assert.isNotTrue
-
 assert.isFalse = function (value: unknown, message: string) {
   if (value === false) return
 
   fail(message || `Expected ${value} to be false`)
 }
-
-// TODO: assert.isNotFalse
 
 assert.isNull = function (value: unknown, message: string) {
   if (value === null) return
@@ -122,32 +117,11 @@ assert.isNotNull = function (value: unknown, message: string) {
   fail(message || `Expected ${value} to be not null`)
 }
 
-// TODO: assert.isNaN
-// TODO: assert.isNotNaN
-// TODO: assert.exists
-// TODO: assert.notExists
-
 assert.isUndefined = function (value: unknown, message: string) {
   if (value === undefined) return
 
   fail(message || `Expected ${value} to be undefined`)
 }
-
-// TODO: assert.isDefined
-// TODO: assert.isFunction
-// TODO: assert.isObject
-// TODO: assert.isNotObject
-// TODO: assert.isArray
-// TODO: assert.isNotArray
-// TODO: assert.isString
-// TODO: assert.isNotString
-// TODO: assert.isNumber
-// TODO: assert.isNotNumber
-// TODO: assert.isFinite
-// TODO: assert.isBoolean
-// TODO: assert.isNotBoolean
-// TODO: assert.typeof
-// TODO: assert.notTypeOf
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 assert.instanceOf = function (value: unknown, construct: any, message: string) {
@@ -155,8 +129,6 @@ assert.instanceOf = function (value: unknown, construct: any, message: string) {
 
   fail(message || `Expected ${value} to be a instance of ${construct}`)
 }
-
-// TODO: assert.notInstanceOf
 
 assert.include = function (haystack: unknown[], needle: unknown, message: string) {
   if (haystack.includes(needle)) return
@@ -170,32 +142,11 @@ assert.notInclude = function (haystack: unknown[], needle: unknown, message: str
   fail(message || `Expected ${haystack} to not include ${needle}`)
 }
 
-// TODO: assert.deepInclude
-// TODO: assert.notDeepInclude
-// TODO: assert.nestedInclude
-// TODO: assert.notNestedInclude
-// TODO: assert.deepNestedInclude
-// TODO: assert.notDeepNestedInclude
-
 assert.match = function (value: string, regexp: string | RegExp, message: string) {
   if (value.match(regexp)) return
 
   fail(message || `Expected ${value} to match ${regexp}`)
 }
-
-// TODO: assert.notMatch
-// TODO: assert.property
-// TODO: assert.notProperty
-// TODO: assert.propertyVal
-// TODO: assert.notPropertyVal
-// TODO: assert.deepPropertyVal
-// TODO: assert.notDeepPropertyVal
-// TODO: assert.nestedPropertyVal
-// TODO: assert.notNestedPropertyVal
-// TODO: assert.deepNestedPropertyVal
-// TODO: assert.notDeepNestedPropertyVal
-// TODO: assert.lengthOf
-// TODO: assert.hasAnyKeys
 
 assert.hasAllKeys = function (thing: Record<string, never>, keys: string[], message: string) {
   const objectKeys = Object.keys(thing)
@@ -212,14 +163,6 @@ assert.containsAllKeys = function (thing: Record<string, never>, keys: string[],
   fail(message || `Expected ${Object.keys(thing)} to include all the keys: ${keys}`)
 }
 
-// TODO: assert.doesNotHaveAnyKeys
-// TODO: assert.doesNotHaveAllKeys
-// TODO: assert.hasAnyDeepKeys
-// TODO: assert.hasAllDeepKeys
-// TODO: assert.containsAllDeepKeys
-// TODO: assert.doesNotHaveAnyDeepKeys
-// TODO: assert.doesNotHaveAllDeepKeys
-
 assert.throws = function (fn: () => void, errorLike: string | RegExp) {
   try {
     fn()
@@ -230,16 +173,6 @@ assert.throws = function (fn: () => void, errorLike: string | RegExp) {
   }
   fail(`Expected function to throw`)
 }
-
-// TODO: assert.doesNotThrow
-// TODO: assert.operator
-// TODO: assert.closeTo
-
-// TODO: Rest of list at https://www.chaijs.com/api/assert/
-
-/*
- *
- */
 
 assert.isEmpty = function (target: unknown) {
   if (typeof target === 'string' || target instanceof Array || target instanceof NodeList) {
