@@ -15,20 +15,10 @@ assert.isOk = function (thing: unknown, message: string) {
   fail(message || `Expected ${thing} to be ok`)
 }
 
-assert.ok = function (thing: unknown, message: string) {
-  console.log('ok() is deprecated. Use isOk() instead')
-  assert.isOk(thing, message)
-}
-
 assert.isNotOk = function (thing: unknown, message: string) {
   if (!thing) return
 
   fail(message || `Expected ${thing} to be not ok`)
-}
-
-assert.notOk = function (thing: unknown, message: string) {
-  console.log('notOk() is deprecated. Use isNotOk() instead')
-  assert.isNotOk(thing, message)
 }
 
 assert.equal = function <T = unknown>(actual: T, expected: T, message: string) {
@@ -260,11 +250,6 @@ assert.isEmpty = function (target: unknown) {
     fail(`Expected ${target} to be empty`)
   }
   fail(`Didn't know how to check if ${target} is empty`)
-}
-
-assert.empty = function (target: unknown) {
-  console.log('empty() is deprecated. Use isEmpty() instead')
-  assert.isEmpty(target)
 }
 
 assert.isNotEmpty = function (target: unknown) {
