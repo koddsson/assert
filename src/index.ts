@@ -1,4 +1,7 @@
-function deepEqual(obj1: Record<string, never>, obj2: Record<string, never>) {
+/**
+ * Check if two objects are equal
+ */
+function _deepEqual(obj1: Record<string, never>, obj2: Record<string, never>): boolean {
   if (obj1 === obj2) {
     // it's just the same object. No need to compare.
     return true
@@ -9,7 +12,7 @@ function deepEqual(obj1: Record<string, never>, obj2: Record<string, never>) {
   // compare objects with same number of keys
   for (const key in obj1) {
     if (!(key in obj2)) return false //other object doesn't have this prop
-    if (!deepEqual(obj1[key], obj2[key])) return false
+    if (!_deepEqual(obj1[key], obj2[key])) return false
   }
 
   return true
@@ -18,25 +21,23 @@ function deepEqual(obj1: Record<string, never>, obj2: Record<string, never>) {
 /**
  * Fail the assertion by throwing a error with the message provided.
  */
-function fail(message: string) {
+export function fail(message: string): void {
   throw new Error(message)
 }
 
 /**
  * Fail the assertion if the condition provided isn't truthy.
  */
-function assert(condition: unknown, message: string): void {
+export function assert(condition: unknown, message: string): void {
   if (condition) return
 
   fail(message || `Expected ${condition} to be truthy`)
 }
 
-assert.fail = fail
-
 /**
  * Fail the assertion if the condition provided isn't truthy.
  */
-assert.isOk = function (thing: unknown, message: string) {
+export function isOk(thing: unknown, message: string): void {
   if (thing) return
 
   fail(message || `Expected ${thing} to be ok`)
@@ -45,7 +46,7 @@ assert.isOk = function (thing: unknown, message: string) {
 /**
  * Fail the assertion if the condition provided isn't falsey.
  */
-assert.isNotOk = function (thing: unknown, message: string) {
+export function isNotOk(thing: unknown, message: string): void {
   if (!thing) return
 
   fail(message || `Expected ${thing} to be not ok`)
@@ -55,7 +56,7 @@ assert.isNotOk = function (thing: unknown, message: string) {
  * Fail the assertion if the provided `actual` value isn't equal to the
  * provided `expected` value using the `==` operator.
  */
-assert.equal = function <T = unknown>(actual: T, expected: T, message: string) {
+export function equal<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual == expected) return
 
   fail(message || `Expected ${actual} and ${expected} to be equal`)
@@ -65,7 +66,7 @@ assert.equal = function <T = unknown>(actual: T, expected: T, message: string) {
  * Fail the assertion if the provided `actual` value is equal to the provided
  * `expected` value using the `==` operator.
  */
-assert.notEqual = function <T = unknown>(actual: T, expected: T, message: string) {
+export function notEqual<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual != expected) return
 
   fail(message || `Expected ${actual} and ${expected} to be not equal`)
@@ -75,7 +76,7 @@ assert.notEqual = function <T = unknown>(actual: T, expected: T, message: string
  * Fail the assertion if the provided `actual` value isn't equal to the provided
  * `expected` value using the `===` operator.
  */
-assert.strictEqual = function <T = unknown>(actual: T, expected: T, message: string) {
+export function strictEqual<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual === expected) return
 
   fail(message || `Expected ${actual} and ${expected} to be strict equal`)
@@ -85,7 +86,7 @@ assert.strictEqual = function <T = unknown>(actual: T, expected: T, message: str
  * Fail the assertion if the provided `actual` value is equal to the provided
  * `expected` value using the `===` operator.
  */
-assert.notStrictEqual = function <T = unknown>(actual: T, expected: T, message: string) {
+export function notStrictEqual<T = unknown>(actual: T, expected: T, message: string): void {
   if (actual !== expected) return
 
   fail(message || `Expected ${actual} and ${expected} to be not strict equal`)
@@ -95,8 +96,8 @@ assert.notStrictEqual = function <T = unknown>(actual: T, expected: T, message: 
  * Fail the assertion if the provided `actual` object is equal to the provided
  * `expected` object.
  */
-assert.deepEqual = function (actual: Record<string, never>, expected: Record<string, never>, message: string) {
-  if (deepEqual(actual, expected)) return
+export function deepEqual(actual: Record<string, never>, expected: Record<string, never>, message: string): void {
+  if (_deepEqual(actual, expected)) return
 
   fail(message || `Expected ${expected} to be equal ${actual}`)
 }
@@ -105,8 +106,8 @@ assert.deepEqual = function (actual: Record<string, never>, expected: Record<str
  * Fail the assertion if the provided `actual` object isn't equal to the provided
  * `expected` object.
  */
-assert.notDeepEqual = function (actual: Record<string, never>, expected: Record<string, never>, message: string) {
-  if (!deepEqual(actual, expected)) return
+export function notDeepEqual(actual: Record<string, never>, expected: Record<string, never>, message: string): void {
+  if (!_deepEqual(actual, expected)) return
 
   fail(message || `Expected ${expected} to be equal ${actual}`)
 }
@@ -115,7 +116,7 @@ assert.notDeepEqual = function (actual: Record<string, never>, expected: Record<
  * Fail the assertion if the provided `actual` object isn't equal to the provided
  * `expected` object.
  */
-assert.isAbove = function (valueToCheck: number, valueToBeAbove: number, message: string) {
+export function isAbove(valueToCheck: number, valueToBeAbove: number, message: string): void {
   if (valueToCheck > valueToBeAbove) return
 
   fail(message || `Expected ${valueToCheck} to be higher than ${valueToBeAbove}`)
@@ -125,7 +126,7 @@ assert.isAbove = function (valueToCheck: number, valueToBeAbove: number, message
  * Fail the assertion if the provided `valueToCheck` number is at least equal
  * or higher than the provided `valueToBeAtLeast` number.
  */
-assert.isAtLeast = function (valueToCheck: number, valueToBeAtLeast: number, message: string) {
+export function isAtLeast(valueToCheck: number, valueToBeAtLeast: number, message: string): void {
   if (valueToCheck >= valueToBeAtLeast) return
 
   fail(message || `Expected ${valueToCheck} to be lower than ${valueToBeAtLeast}`)
@@ -135,7 +136,7 @@ assert.isAtLeast = function (valueToCheck: number, valueToBeAtLeast: number, mes
  * Fail the assertion if the provided `valueToCheck` number is at lower than
  * the provided `valueToBeAtLeast` number.
  */
-assert.isBelow = function (valueToCheck: number, valueToBeBelow: number, message: string) {
+export function isBelow(valueToCheck: number, valueToBeBelow: number, message: string): void {
   if (valueToCheck < valueToBeBelow) return
 
   fail(message || `Expected ${valueToCheck} to be lower than ${valueToBeBelow}`)
@@ -144,7 +145,7 @@ assert.isBelow = function (valueToCheck: number, valueToBeBelow: number, message
 /**
  * Fail the assertion if the provided `value` isn't falsey
  */
-assert.isTrue = function (value: unknown, message: string) {
+export function isTrue(value: unknown, message: string): void {
   if (value === true) return
 
   fail(message || `Expected ${value} to be true`)
@@ -153,7 +154,7 @@ assert.isTrue = function (value: unknown, message: string) {
 /**
  * Fail the assertion if the provided `value` isn't truthy
  */
-assert.isFalse = function (value: unknown, message: string) {
+export function isFalse(value: unknown, message: string): void {
   if (value === false) return
 
   fail(message || `Expected ${value} to be false`)
@@ -162,7 +163,7 @@ assert.isFalse = function (value: unknown, message: string) {
 /**
  * Fail the assertion if the provided `value` isn't null
  */
-assert.isNull = function (value: unknown, message: string) {
+export function isNull(value: unknown, message: string): void {
   if (value === null) return
 
   fail(message || `Expected ${value} to be null`)
@@ -171,7 +172,7 @@ assert.isNull = function (value: unknown, message: string) {
 /**
  * Fail the assertion if the provided `value` is null
  */
-assert.isNotNull = function (value: unknown, message: string) {
+export function isNotNull(value: unknown, message: string): void {
   if (value !== null) return
 
   fail(message || `Expected ${value} to be not null`)
@@ -180,7 +181,7 @@ assert.isNotNull = function (value: unknown, message: string) {
 /**
  * Fail the assertion if the provided `value` is undefined
  */
-assert.isUndefined = function (value: unknown, message: string) {
+export function isUndefined(value: unknown, message: string): void {
   if (value === undefined) return
 
   fail(message || `Expected ${value} to be undefined`)
@@ -190,8 +191,8 @@ assert.isUndefined = function (value: unknown, message: string) {
  * Fail the assertion if the provided `value` isn't a instance of the provided
  * `construct` value.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-assert.instanceOf = function (value: unknown, construct: any, message: string) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function instanceOf(value: unknown, construct: Function, message: string): void {
   if (value instanceof construct) return
 
   fail(message || `Expected ${value} to be a instance of ${construct}`)
@@ -201,7 +202,7 @@ assert.instanceOf = function (value: unknown, construct: any, message: string) {
  * Fail the assertion if the provided `needle` value isn't included in the
  * provided `haystack` array.
  */
-assert.include = function (haystack: unknown[], needle: unknown, message: string) {
+export function include(haystack: unknown[], needle: unknown, message: string): void {
   if (haystack.includes(needle)) return
 
   fail(message || `Expected ${haystack} to include ${needle}`)
@@ -211,7 +212,7 @@ assert.include = function (haystack: unknown[], needle: unknown, message: string
  * Fail the assertion if the provided `needle` value is included in the
  * provided `haystack` array.
  */
-assert.notInclude = function (haystack: unknown[], needle: unknown, message: string) {
+export function notInclude(haystack: unknown[], needle: unknown, message: string): void {
   if (!haystack.includes(needle)) return
 
   fail(message || `Expected ${haystack} to not include ${needle}`)
@@ -221,7 +222,7 @@ assert.notInclude = function (haystack: unknown[], needle: unknown, message: str
  * Fail the assertion if the provided `value` value doesn't match the `regexp`
  * value.
  */
-assert.match = function (value: string, regexp: string | RegExp, message: string) {
+export function match(value: string, regexp: string | RegExp, message: string): void {
   if (value.match(regexp)) return
 
   fail(message || `Expected ${value} to match ${regexp}`)
@@ -231,10 +232,10 @@ assert.match = function (value: string, regexp: string | RegExp, message: string
  * Fail the assertion if the provided object doesn't have each and every key
  * that is provided and no other keys.
  */
-assert.hasAllKeys = function (thing: Record<string, never>, keys: string[], message: string) {
+export function hasAllKeys(thing: Record<string, never>, keys: string[], message: string): void {
   const objectKeys = Object.keys(thing)
-  const hasAllKeys = objectKeys.length === keys.length && keys.every(key => objectKeys.includes(key))
-  if (hasAllKeys) return
+  const allKeys = objectKeys.length === keys.length && keys.every(key => objectKeys.includes(key))
+  if (allKeys) return
 
   fail(message || `Expected ${objectKeys} to include ${keys} and only those keys`)
 }
@@ -243,9 +244,9 @@ assert.hasAllKeys = function (thing: Record<string, never>, keys: string[], mess
  * Fail the assertion if the provided object doesn't have each and every key
  * that is provided. The object can have other keys.
  */
-assert.containsAllKeys = function (thing: Record<string, never>, keys: string[], message: string) {
-  const hasAllKeys = keys.every(key => Object.keys(thing).includes(key))
-  if (hasAllKeys) return
+export function containsAllKeys(thing: Record<string, never>, keys: string[], message: string): void {
+  const allKeys = keys.every(key => Object.keys(thing).includes(key))
+  if (allKeys) return
 
   fail(message || `Expected ${Object.keys(thing)} to include all the keys: ${keys}`)
 }
@@ -255,7 +256,7 @@ assert.containsAllKeys = function (thing: Record<string, never>, keys: string[],
  * the assertion if the error message doesn't match the provided `errorLike`
  * value.
  */
-assert.throws = function (fn: () => void, errorLike: string | RegExp) {
+export function throws(fn: () => void, errorLike: string | RegExp): void {
   try {
     fn()
   } catch (error) {
@@ -269,7 +270,7 @@ assert.throws = function (fn: () => void, errorLike: string | RegExp) {
 /**
  * Fail the assertion if the provided `target` value isn't empty.
  */
-assert.isEmpty = function (target: string | unknown[] | NodeList | Map<unknown, unknown> | Set<unknown>) {
+export function isEmpty(target: string | unknown[] | NodeList | Map<unknown, unknown> | Set<unknown>): void {
   if (typeof target === 'string' || target instanceof Array || target instanceof NodeList) {
     if (target.length === 0) return
     fail(`Expected ${target} to be empty`)
@@ -283,7 +284,7 @@ assert.isEmpty = function (target: string | unknown[] | NodeList | Map<unknown, 
 /**
  * Fail the assertion if the provided `target` value is empty.
  */
-assert.isNotEmpty = function (target: string | unknown[] | NodeList | Map<unknown, unknown> | Set<unknown>) {
+export function isNotEmpty(target: string | unknown[] | NodeList | Map<unknown, unknown> | Set<unknown>): void {
   if (typeof target === 'string' || target instanceof Array || target instanceof NodeList) {
     if (target.length !== 0) return
     fail(`Expected ${target} to be not empty`)
@@ -293,5 +294,3 @@ assert.isNotEmpty = function (target: string | unknown[] | NodeList | Map<unknow
   }
   fail(`Didn't know how to check if ${target} is not empty`)
 }
-
-export {assert}
